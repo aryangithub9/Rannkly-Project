@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { getUsers, deleteUser } from '../services/userService';
+import { getUsers, deleteUser,updateUser } from '../services/userService';
 
 const AdminDashboard = () => {
   const [users, setUsers] = useState([]);
@@ -26,6 +26,15 @@ const AdminDashboard = () => {
       } catch (err) {
         setError(err.response?.data?.message || 'Failed to delete user');
       }
+    }
+  };
+
+  const handleUpdateUserRole = async (userId, role) => {
+    try {
+      await updateUser(userId, { role });
+      fetchUsers(); // Refresh users after update
+    } catch (err) {
+      setError(err.response?.data?.message || 'Failed to update user role');
     }
   };
 
@@ -60,8 +69,30 @@ const AdminDashboard = () => {
                 >
                   <td className="px-4 py-3">{user.name}</td>
                   <td className="px-4 py-3">{user.email}</td>
-                  <td className="px-4 py-3 capitalize">{user.role}</td>
+                  <td className="px-4 py-3 capitalize">
+                    <select
+                      value={user.role}
+                      onChange={(e) => {
+                        const newUsers = users.map((u) =>
+                          u._id === user._id ? { ...u, role: e.target.value } : u
+                        );
+                        setUsers(newUsers);
+                      }}
+                      className="border border-gray-300 rounded-md px-2 py-1"
+                    >
+                      <option value="Employee">Employee</option>
+                      <option value="Admin">Admin</option>
+                      <option value="Manager">Manager</option>
+                      
+                    </select>
+                  </td>
                   <td className="px-4 py-3 text-center">
+                    <button
+                      onClick={() => handleUpdateUserRole(user._id, user.role)}
+                      className="px-3 py-1.5 bg-blue-500 text-white text-sm rounded-lg hover:bg-blue-600 transition mr-2"
+                    >
+                      Update
+                    </button>
                     <button
                       onClick={() => handleDeleteUser(user._id)}
                       className="px-3 py-1.5 bg-red-500 text-white text-sm rounded-lg hover:bg-red-600 transition"

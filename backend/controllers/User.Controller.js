@@ -78,6 +78,14 @@ export const updateUser = async (req, res, next) => {
       });
     }
 
+    // Only Admin can change role
+    if (req.body.role && req.user.role !== 'Admin') {
+      return res.status(403).json({
+        status: 'error',
+        message: 'Not authorized to change user role'
+      });
+    }
+
     // Employee can only update their own profile (name, email only)
     if (req.user.role === 'Employee') {
       if (req.params.id !== req.user.id) {
