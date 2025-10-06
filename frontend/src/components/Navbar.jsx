@@ -20,6 +20,8 @@ const Navbar = () => {
             <>
               <Link to="/dashboard" className="hover:text-gray-300">Dashboard</Link>
               {user.role === 'Admin' && <Link to="/admin" className="hover:text-gray-300">Admin</Link>}
+              {user.role === 'Manager' && <Link to="/manager" className="hover:text-gray-300">Manager</Link>}
+              {user.role === 'Employee' && <Link to="/profile" className="hover:text-gray-300">Profile</Link>}
            
               <button onClick={handleLogout} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
                 Logout
