@@ -4,8 +4,7 @@ import {
   getUsers,
   getUser,
   updateUser,
-  deleteUser,
-  getUserStats
+  deleteUser
 } from '../controllers/User.Controller.js';
 import { protect } from '../middleware/authMiddleware.js';
 import { authorize } from '../middleware/roleMiddleware.js';
@@ -17,9 +16,6 @@ import {
 
 // Protect all user routes
 router.use(protect);
-
-// Stats route - Manager and Admin only
-router.get('/stats', authorize('Manager', 'Admin'), getUserStats);
 
 // Get all users - Manager and Admin only
 router.get('/', authorize('Manager', 'Admin'), getUsers);
