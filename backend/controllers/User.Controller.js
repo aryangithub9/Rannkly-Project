@@ -78,8 +78,8 @@ export const updateUser = async (req, res, next) => {
       });
     }
 
-    // Only Admin can change role
-    if (req.body.role && req.user.role !== 'Admin') {
+    // Only Admin or Manager can change role
+    if (req.body.role && req.user.role !== 'Admin' && req.user.role !== 'Manager') {
       return res.status(403).json({
         status: 'error',
         message: 'Not authorized to change user role'
@@ -109,7 +109,7 @@ export const updateUser = async (req, res, next) => {
       }
     }
 
-    // Manager can only update Employees
+    // Manager can only update Employees (but can now assign any role)
     if (req.user.role === 'Manager') {
       if (user.role !== 'Employee') {
         return res.status(403).json({
@@ -117,13 +117,7 @@ export const updateUser = async (req, res, next) => {
           message: 'Managers can only update Employee profiles'
         });
       }
-      // Manager can update role but not to Manager or Admin
-      if (req.body.role && req.body.role !== 'Employee') {
-        return res.status(403).json({
-          status: 'error',
-          message: 'Managers can only set role to Employee'
-        });
-      }
+      // Removed: restriction on setting role only to Employee
     }
 
     // Don't allow password updates through this route
@@ -152,6 +146,7 @@ export const updateUser = async (req, res, next) => {
     next(error);
   }
 };
+
 
 // @desc    Delete user
 // @route   DELETE /api/v1/users/:id
