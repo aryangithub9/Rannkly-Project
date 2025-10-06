@@ -6,12 +6,13 @@ const Task = ({ task, setTaskToEdit }) => {
   const { deleteTask, updateTask } = useTasks();
   const { user } = useAuth();
 
-  const canUpdate = user.role === 'Admin' || user.role === 'Manager' || user._id === task.createdBy._id;
-  const canDelete = user.role === 'Admin' || user.role === 'Manager' || user._id === task.createdBy._id;
+
+  const canUpdate = user.role === 'Admin' || user.role === 'Manager' || user.email === task.createdBy.email;
+  const canDelete = user.role === 'Admin' || user.role === 'Manager' || user.email === task.createdBy.email;
   const canUpdateStatusOrPriority =
     user.role === 'Admin' ||
     user.role === 'Manager' ||
-    user._id === task.assignedTo._id; // employees can only update their own assigned tasks
+    user.email === task.assignedTo.email; 
 
   return (
     <div className="bg-white shadow-md rounded-xl border border-gray-200 p-4 sm:p-6 mb-4 transition hover:shadow-lg">
