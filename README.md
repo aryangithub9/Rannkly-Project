@@ -56,7 +56,7 @@ To test the application, you can register new users with the following roles, or
     *   **Email:** `manager@gmail.com.`
     *   **Password:** `manager123`
 *   **Employee:**
-    *   **Email:** `employee@gmail.com.`
-    *   **Password:** `employee123`
+    *   **Email:** `aryan@gmail.com.`
+    *   **Password:** `aryan123`
 
 **Note:** You will need to register these users first if they don't exist in the database. The application supports user registration.
