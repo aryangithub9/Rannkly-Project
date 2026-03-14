@@ -35,6 +35,14 @@ app.get('/api/v1/health', (req, res) => {
   });
 });
 
+app.get('/api/v2/health', (req, res) => {
+  res.status(200).json({ 
+    status: 'success',
+    message: 'Server is running and v2',
+    timestamp: new Date().toISOString()
+  });
+});
+
 // Error handling middleware (must be last)
 app.use(errorMiddleware);
 
